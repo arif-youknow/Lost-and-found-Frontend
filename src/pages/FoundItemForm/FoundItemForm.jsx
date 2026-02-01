@@ -123,12 +123,11 @@ const FoundItemForm = () => {
             {showModal && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modalContent}>
-                        <div className={styles.successIcon}>✔</div>
                         <h3>Success!</h3>
-                        <p>Found item recorded successfully.</p>
+                        <p>Your FOUND item has been listed.</p>
                         <div className={styles.tokenBox}>
-                            <small>Your Search Token:</small>
-                            <p className={styles.tokenText}>{token}</p>
+                            <strong>Your Search Token:</strong>
+                            <span className={styles.tokenText}>{token}</span>
                         </div>
                         <button 
                             className={styles.closeBtn} 

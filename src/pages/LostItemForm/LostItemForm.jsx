@@ -85,7 +85,7 @@ const LostItemForm = () => {
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
             <h3>Success!</h3>
-            <p>Your item has been listed.</p>
+            <p>Your LOST item has been listed.</p>
             <div className={styles.tokenBox}>
               <strong>Your Search Token:</strong>
               <span className={styles.tokenText}>{token}</span>
