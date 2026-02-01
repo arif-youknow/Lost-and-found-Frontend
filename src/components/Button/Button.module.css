@@ -1,0 +1,43 @@
+.button {
+  padding:  0.8rem 1.5rem;
+  border: none;
+  font-size: 18px;
+  font-weight: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  min-width: 150px;
+  text-align: center;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.lost-submit {
+  background-color: #41406b;
+  color: white;
+}
+
+.lost-submit:hover {
+  background-color: #272640;
+}
+
+.found-submit {
+  background-color:  #03989b;
+  color: white;
+}
+
+.found-submit:hover {
+  background-color: #006466;
+}
+.primary {
+  background-color: #144552;
+  color: white;
+  padding: 0px;
+
+}
+.primary:hover {
+  background-color: #006466;
+}
