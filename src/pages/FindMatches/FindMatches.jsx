@@ -7,10 +7,9 @@ const FindMatches = () => {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [error, setError] = useState(null); 
+  const [error, setError] = useState(null);
 
   const handleSearch = async (e) => {
-   
     if (e) e.preventDefault();
     if (!searchQuery) return alert("Please enter a token");
 
@@ -18,16 +17,15 @@ const FindMatches = () => {
     setError(null);
     
     try {
-      
-      const result = await apiService.searchByToken(searchQuery, 2);
-      
+      const result = await apiService.searchByToken(searchQuery, 4); // ৪টি দিলাম যেন ২টা রো পূর্ণ হয়
       if (result.status === "success") {
-        setMatches(result.top_matches); 
+        const confirmedMatches = result.top_matches.filter(m => m.is_match === true);
+        setMatches(confirmedMatches);
       }
     } catch (err) {
       console.error('Search failed', err);
       setError(err.message || 'Something went wrong');
-      setMatches([]); 
+      setMatches([]);
     } finally {
       setLoading(false);
     }
@@ -45,46 +43,42 @@ const FindMatches = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
           className={styles.searchInput}
         />
-
         <div className={styles.actions}>
-          
           <Button onClick={handleSearch} disabled={loading} variant="primary">
-            {loading ? <span className={styles.refreshBtn}>Searching...</span> : <span className={styles.refreshBtn}>Search</span>}
+            {loading ? "Searching..." : "Search"}
           </Button>
         </div>
       </div>
 
-      {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
+      {error && <p className={styles.errorMessage}>{error}</p>}
+      {loading && <p className={styles.statusMessage}>Loading matches...</p>}
 
-      {loading && <p>Loading matches...</p>}
-
-      {!loading && matches.length === 0 && !error && (
-        <p className={styles.noMatches}>No matches found yet. Try refreshing!</p>
+      {!loading && matches.length === 0 && !error && searchQuery && (
+        <p className={styles.noMatches}>No confirmed matches found yet.</p>
       )}
 
-      {!loading && matches.length > 0 && (
-        <div className={styles.matchesList}>
-          {matches.map((match, index) => (
-            <div key={index} className={styles.matchCard}>
-              
-              <h3 className={styles.matchItemName}>
-                {match.name} ({match.type === 'found' ? 'Found' : 'Lost'})
-              </h3>
-              <p className={styles.matchDescription}>{match.description}</p>
-              <p className={styles.matchScore}>
-                Match Score: <strong>{match.match_score}%</strong>
-              </p>
-              <Button 
-                onClick={() => alert(`Viewing details for ${match.name}`)} 
-                variant="secondary" 
-                className={styles.viewDetailsButton}
-              >
-                View Details
-              </Button>
+      <div className={styles.matchesGrid}>
+        {matches.map((match, index) => (
+          <div key={index} className={styles.horizontalCard}>
+            {/* বাম দিকে ছবি */}
+            <div className={styles.imageSection}>
+              {match.image_url ? (
+                <img src={`http://127.0.0.1:8000${match.image_url}`} alt="Item" />
+              ) : (
+                <div className={styles.noPhoto}>No Photo</div>
+              )}
             </div>
-          ))}
-        </div>
-      )}
+
+            {/* ডান দিকে তথ্য */}
+            <div className={styles.infoSection}>
+              <p><strong>Item Name:</strong> {match.item_name}</p>
+              <p className={styles.descText}><strong>Description:</strong> {match.description}</p>
+              <p><strong>Match Score:</strong> <span className={styles.scoreText}>{match.confidence}%</span></p>
+              <p><strong>Contact No:</strong> {match.contact_info}</p>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

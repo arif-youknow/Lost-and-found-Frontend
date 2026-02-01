@@ -39,7 +39,7 @@ const apiService = {
       });
 
       if (!response.ok) {
-        // সার্ভার থেকে আসা এরর মেসেজ হ্যান্ডেল করা
+        
         const errorData = await response.json();
         throw new Error(errorData.message || 'Error uploading lost item');
       }
